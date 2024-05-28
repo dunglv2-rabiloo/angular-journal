@@ -1,33 +1,40 @@
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-about-us',
   standalone: true,
-  imports: [FormsModule],
+  imports: [ReactiveFormsModule],
   template: `
-    <form (ngSubmit)="handleSubmit()">
+    <form [formGroup]="contactForm" (ngSubmit)="handleSubmit()">
       <div>
         <label>
-          <span>Name</span>
-          <input name="name" type="text" [(ngModel)]="name" />
+          <span>Email</span>
+          <input type="text" formControlName="email" />
         </label>
       </div>
       <div>
         <label>
           <span>Message</span>
-          <textarea name="message" [(ngModel)]="message"></textarea>
+          <textarea formControlName="message"></textarea>
         </label>
       </div>
-      <button type="submit">Send</button>
+      <button type="submit" [disabled]="!contactForm.valid">Send</button>
     </form>
   `,
 })
 export class AboutUsComponent {
-  name = '';
-  message = '';
+  contactForm = new FormGroup({
+    email: new FormControl('', [Validators.required, Validators.email]),
+    message: new FormControl('', Validators.required),
+  });
 
   handleSubmit() {
-    console.log(this.name, this.message);
+    console.log(this.contactForm.value.email, this.contactForm.value.message);
   }
 }
