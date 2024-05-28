@@ -4,9 +4,11 @@ import { RouterOutlet } from '@angular/router';
 @Component({
   selector: 'app-user',
   standalone: true,
-  template: ` @if (user) {
-    <div>Welcome back, {{ user }}</div>
-  }`,
+  template: `
+    @if (user) {
+      <div>Welcome back, {{ user }}</div>
+    }
+  `,
 })
 export class UserComponent {
   user = 'dung';
