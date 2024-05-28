@@ -1,3 +1,4 @@
+import { NgOptimizedImage } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 interface Tag {
@@ -6,6 +7,7 @@ interface Tag {
 }
 
 export interface User {
+  avatar: string;
   name: string;
   programmingLanguages: string[];
   tags: Tag[];
@@ -14,8 +16,10 @@ export interface User {
 @Component({
   selector: 'app-user',
   standalone: true,
+  imports: [NgOptimizedImage],
   template: `
     @if (user) {
+      <img ngSrc="{{ user.avatar }}" width="128" height="128" priority />
       <h2>Welcome back, {{ user.name }}</h2>
       <button (click)="switchCase()">Switch Case</button>
       <button (click)="logout()">Logout</button>
@@ -31,8 +35,6 @@ export interface User {
           <li [id]="tag.id">{{ tag.label }}</li>
         }
       </ul>
-    } @else {
-      <h2>Please sign in</h2>
     }
   `,
 })
