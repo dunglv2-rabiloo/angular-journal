@@ -2,29 +2,25 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 @Component({
-  selector: 'app-menu',
+  selector: 'app-user',
   standalone: true,
-  template: `<div>{{ currentTime }}</div>`,
+  template: ` @if (user) {
+    <div>Welcome back, {{ user }}</div>
+  }`,
 })
-export class MenuComponent {
-  currentTime = new Date();
+export class UserComponent {
+  user = 'dung';
 }
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, MenuComponent],
-  template: `<div>
-    <app-menu />
-    <h1>Hello, {{ name }}, born: {{ birthYear }}</h1>
-  </div>`,
+  imports: [RouterOutlet, UserComponent],
+  template: `<app-user />`,
   styles: `
     :host {
-      color: #4caf50
+      color: #4caf50;
     }
   `,
 })
-export class AppComponent {
-  name = 'Dung';
-  birthYear = 2002;
-}
+export class AppComponent {}
