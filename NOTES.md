@@ -8,3 +8,5 @@
 - Event handling
 - Component communication with @Input, @Output
 - Deferable view
+- Dependency injection
+- Pipes
