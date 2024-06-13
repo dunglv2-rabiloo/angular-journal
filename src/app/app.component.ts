@@ -10,7 +10,8 @@ import { SuffixDirective } from './suffix.directive';
   imports: [RouterOutlet, UserComponent, CommentsComponent, SuffixDirective],
   template: `
     <div [className]="theme">
-      <h1 suffix="<3">Hi</h1>
+      <h1 #heading suffix="<3">Hi</h1>
+      <button (click)="uppercase(heading)">Click me!</button>
       @if (user) {
         <app-user [user]="user" (logoutEvent)="doLogout()" />
         @defer (on viewport) {
@@ -50,6 +51,10 @@ export class AppComponent {
       },
     ],
   };
+
+  uppercase(el: Element) {
+    el.textContent = el.textContent?.toUpperCase() || null;
+  }
 
   doLogout() {
     this.user = null;
