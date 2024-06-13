@@ -1,14 +1,16 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { User, UserComponent } from './user.component';
 import { CommentsComponent } from './comments.component';
+import { User, UserComponent } from './user.component';
+import { SuffixDirective } from './suffix.directive';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, UserComponent, CommentsComponent],
+  imports: [RouterOutlet, UserComponent, CommentsComponent, SuffixDirective],
   template: `
     <div [className]="theme">
+      <h1 suffix="<3">Hi</h1>
       @if (user) {
         <app-user [user]="user" (logoutEvent)="doLogout()" />
         @defer (on viewport) {
