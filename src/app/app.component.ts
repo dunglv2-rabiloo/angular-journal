@@ -1,47 +1,56 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, forwardRef } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import {
   Option,
-  SearchableSelectComponent,
-} from './searchable-select/searchable-select.component';
+  SearchableDropdownComponent,
+} from './searchable-dropdown/searchable-dropdown.component';
+import { CatFact, CatService } from './cat.service';
+import { Observable, map } from 'rxjs';
+import {
+  FormControl,
+  FormGroup,
+  NG_VALUE_ACCESSOR,
+  ReactiveFormsModule,
+} from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, SearchableSelectComponent],
+  imports: [RouterOutlet, SearchableDropdownComponent, ReactiveFormsModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      multi: true,
+      useExisting: forwardRef(() => SearchableDropdownComponent),
+    },
+  ],
 })
 export class AppComponent {
-  initial: Option = {
-    value: '5',
-    label: 'Option 5',
-  };
+  formGroup: FormGroup = new FormGroup({
+    approver: new FormControl(),
+    test: new FormControl(),
+  });
 
-  selectOption(option: Option) {
-    console.log('selected', option);
+  constructor(private catService: CatService) {
+    console.log(this.catService);
   }
 
-  doFilter(keyword: string): Option[] {
-    const OPTS = [
-      {
-        value: '1',
-        label: 'Option 1',
-      },
-      {
-        value: '2',
-        label: 'Option 2',
-      },
-      {
-        value: '3',
-        label: 'Option 3',
-      },
-    ];
+  handleSubmit() {
+    console.log(this.formGroup.value);
+  }
 
-    keyword = keyword.toLowerCase();
-    const filtered = OPTS.filter((opt) =>
-      opt.label.toLowerCase().includes(keyword)
-    );
-    return filtered;
+  filterCatFact(keyword: string): Observable<Option[]> {
+    return this.catService
+      .fetchFacts()
+      .pipe(
+        map((facts) =>
+          facts.map(
+            (fact) => ({ label: fact.content, value: fact.content } as Option)
+          )
+        )
+      );
   }
 }

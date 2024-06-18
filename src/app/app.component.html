@@ -1,6 +1,12 @@
-<app-searchable-select
-  [initialValue]="initial"
-  [filterMethod]="doFilter"
-  [delay]="500"
-  (select)="selectOption($event)"
-></app-searchable-select>
+<form (ngSubmit)="handleSubmit()" [formGroup]="formGroup">
+  <select formControlName="approver">
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+  </select>
+  <app-searchable-dropdown
+    [filterMethod]="filterCatFact.bind(this)"
+  ></app-searchable-dropdown>
+
+  <button type="submit">Submit</button>
+</form>

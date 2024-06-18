@@ -1,0 +1,14 @@
+<mat-form-field>
+  <mat-select [formControl]="control" placeholder="Select one..." #singleSelect>
+    <mat-option>
+      <ngx-mat-select-search
+        [formControl]="filterControl"
+        [searching]="searching"
+        [clearSearchInput]="false"
+      ></ngx-mat-select-search>
+    </mat-option>
+    <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+      {{ option.label }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
